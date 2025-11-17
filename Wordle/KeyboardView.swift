@@ -7,33 +7,49 @@
 
 import SwiftUI
 
+struct KeyLabel: View {
+    let letter: String
+
+    var body: some View {
+        Text(letter)
+            .frame(width: 30, height: 75)
+            .foregroundStyle(Color.white)
+            .background(Color.green)
+            .cornerRadius(6)
+            .bold()
+    }
+}
 struct KeyboardView: View {
-    
-    let keyRows = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"]
     
     var topRowArray = "QWERTYUIOP".map { String($0) }
     var middleRowArray = "ASDFGHJKL".map { String($0)}
     var bottomRowArray = "ZXCVBNM".map { String($0)}
     
     var body: some View {
-        Text("Hello")
-//        ForEach(0..<keyRows.count, id: \.self) { rowIndex in
-//            let rowString = Array(keyRows[rowIndex])
-//            HStack {
-//                ForEach(0..<rowString.count, id: \.self) { letterIndex in
-//                    Button(action: {
-//                        updateAnswer(with: String(rowString[letterIndex]))
-//                    }) {
-//                        Text(String(rowString[letterIndex]))
-//                            .frame(width: 30, height: 75)
-//                            .background(Color.green)
-//                            .cornerRadius(6)
-//                            .foregroundStyle(Color.white)
-//
-//                    }
-//                }
-//            }
-//        }
+        VStack{
+            HStack {
+                ForEach(0..<topRowArray.count, id: \.self) { letterIndex in
+                    Button(action: {}) {
+                        KeyLabel(letter: topRowArray[letterIndex])
+                    }
+                }
+            }
+            HStack {
+                ForEach(0..<middleRowArray.count, id: \.self) { letterIndex in
+                    Button(action: {}) {
+                        KeyLabel(letter: middleRowArray[letterIndex])
+                        
+                    }
+                }
+            }
+            HStack {
+                ForEach(0..<bottomRowArray.count, id: \.self) { letterIndex in
+                    Button(action: {}) {
+                        KeyLabel(letter: bottomRowArray[letterIndex])
+                    }
+                }
+            }
+        }
     }
 }
 

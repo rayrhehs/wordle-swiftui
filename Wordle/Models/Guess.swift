@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Guess {
+struct GuessData {
     var guessedLetters:[String] = []
     var guesses = 0
 }

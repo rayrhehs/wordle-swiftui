@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var guess = Guess()
+    @State private var guess = GuessData()
     
     func updateAnswer(with letter: String) {
         if guess.guessedLetters.count < 5 {
