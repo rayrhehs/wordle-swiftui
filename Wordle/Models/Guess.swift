@@ -9,6 +9,8 @@ import SwiftUI
 
 struct GuessData {
     var userGuess:[String] = []
+    var pastGuesses:[[String]] = []
     var maxGuessLetters = 5
-    var guessNumber = 0
+    var maxGuesses = 6
+    var numberOfGuesses = 0
 }

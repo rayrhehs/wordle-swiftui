@@ -20,6 +20,19 @@ struct KeyLabel: View {
     }
 }
 
+struct ButtonLabel: View {
+    let buttonlabel: String
+    
+    var body: some View {
+        Text(buttonlabel)
+            .frame(width: 80, height: 45)
+            .foregroundStyle(Color.white)
+            .background(Color.blue)
+            .cornerRadius(6)
+            .bold()
+    }
+}
+
 struct KeyboardView: View {
     
     @Binding var guessData: GuessData
@@ -35,6 +48,24 @@ struct KeyboardView: View {
         }
     }
     
+    func removeLetter() {
+        if !guessData.userGuess.isEmpty {
+            guessData.userGuess.removeLast()
+            print(guessData.userGuess)
+        }
+    }
+    
+    // rn it only checks if guess == 5 but not if word is valid word AND if guessCount is < 5
+    func submitWord() {
+        if guessData.userGuess.count == 5 {
+            let word = guessData.userGuess.joined()
+            guessData.pastGuesses.append(guessData.userGuess)
+            guessData.userGuess = []
+            guessData.numberOfGuesses += 1
+            print("word submitted: \(word)")
+            print("past guesses: \(guessData.pastGuesses)")
+        }
+    }
     
     var body: some View {
         VStack{
@@ -53,7 +84,6 @@ struct KeyboardView: View {
                         addLetter(letter: middleRowArray[letterIndex])
                     }) {
                         KeyLabel(letter: middleRowArray[letterIndex])
-                        
                     }
                 }
             }
@@ -66,16 +96,25 @@ struct KeyboardView: View {
                     }
                 }
             }
+            HStack{
+                Button(action: {
+                    submitWord()
+                }) {
+                    ButtonLabel(buttonlabel: "SUBMIT")
+                }
+                Button(action: {
+                    removeLetter()
+                }) {
+                    ButtonLabel(buttonlabel: "DELETE")
+                }
+            }
+            .padding(10)
         }
+        .padding(10)
     }
 }
 
 
-struct KeyboardView_Previews: PreviewProvider {
-    @State static var previewGuessData = GuessData(userGuess: [], guessNumber: 0)
-
-    static var previews: some View {
-        KeyboardView(guessData: $previewGuessData)
-    }
+#Preview {
+    KeyboardView(guessData: .constant(GuessData(userGuess: [], numberOfGuesses: 0)))
 }
-
