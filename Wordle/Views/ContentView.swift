@@ -11,43 +11,25 @@ struct ContentView: View {
     @State private var guess = GuessData()
     
     func updateAnswer(with letter: String) {
-        if guess.guessedLetters.count < 5 {
-            guess.guessedLetters.append(letter)
-            print(guess.guessedLetters)
+        if guess.userGuess.count < 5 {
+            guess.userGuess.append(letter)
+            print(guess.userGuess)
         }
     }
     
-    // move them down the row
-    // the foreach shit is throwing me off -
     func submitAnswer() {
-        guess.guesses += 1
+        guess.guessNumber += 1
     }
     
     var body: some View {
         VStack {
-                HStack {
-                    ForEach(0..<5, id: \.self) { column in
-                        ZStack {
-                            Rectangle()
-                                .stroke(Color.black, lineWidth: 4)
-                                .frame(width: 65, height: 65)
-                            
-                            if column < guess.guessedLetters.count {
-                                Text(guess.guessedLetters[column])
-                            }
-                            
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .center)   // center each row
             VStack {
                 // make HStack for each keyRow
                 HStack {
                     Button(action: {
-                        if !guess.guessedLetters.isEmpty {
-                            guess.guessedLetters.removeLast()
-                            // call function to update square UI
-                            print(guess.guessedLetters)
+                        if !guess.userGuess.isEmpty {
+                            guess.userGuess.removeLast()
+                            print(guess.userGuess)
                         }
                     }) {
                         Text("DELETE")
