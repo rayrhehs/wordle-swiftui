@@ -10,6 +10,7 @@ import SwiftUI
 struct GuessRow: View {
     var guessLetters: [String]
     var targetWordArray: [String]
+    var targetWordLettersCount: [String: Int]
     var rowStatus = false
     
     private func getBackgroundColor(for column: Int, guessLetters: [String], targetWordArray:[String], rowStatus: Bool) -> Color {
@@ -22,7 +23,7 @@ struct GuessRow: View {
             return Color.green
         }
         
-        // if targetWordArray contains guessLetters[column] then turn yellow
+        // if targetWordArray contains guessLetters[column] AND the correct number of letters then turn yellow
         if (targetWordArray.contains(guessLetters[column])) {
             return Color.yellow
         }
@@ -51,5 +52,10 @@ struct GuessRow: View {
 }
 
 #Preview {
-    GuessRow(guessLetters: ["H", "E", "L", "L", "O"], targetWordArray: ["P", "E", "N", "N", "Y"], rowStatus: false)
+    GuessRow(guessLetters: ["E", "B", "E", "N", "E"], targetWordArray: ["P", "E", "N", "N", "Y"], targetWordLettersCount: [
+        "P": 1,
+        "E": 1,
+        "N": 2,
+        "Y": 1
+    ], rowStatus: true)
 }

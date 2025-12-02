@@ -10,7 +10,10 @@ import SwiftUI
 struct GuessRowView: View {
     var guessData: GuessData
     var targetWordArray: [String] {
-        guessData.targetWord.map { String($0) }
+        guessData.targetWordArray
+    }
+    var targetWordLettersCount: [String: Int] {
+        guessData.targetWordLettersCount
     }
     
     private func getGuessLetters(at index: Int) -> [String] {
@@ -36,6 +39,7 @@ struct GuessRowView: View {
             ForEach(0..<guessData.maxGuesses, id: \.self) { index in
                 GuessRow(guessLetters: getGuessLetters(at: index),
                          targetWordArray: targetWordArray,
+                         targetWordLettersCount: targetWordLettersCount,
                          rowStatus: index < guessData.rowSubmission.count ? guessData.rowSubmission[index] : false)
             }
         }
