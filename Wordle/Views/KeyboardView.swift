@@ -42,25 +42,26 @@ struct KeyboardView: View {
     var bottomRowArray = "ZXCVBNM".map { String($0)}
     
     func addLetter(letter: String) {
-        if (guessData.userGuess.count < guessData.maxGuessLetters) {
-            guessData.userGuess.append(letter)
-            print(guessData.userGuess)
+        if (guessData.currentGuess.count < guessData.maxGuessLetters) {
+            guessData.currentGuess.append(letter)
+            print(guessData.currentGuess)
         }
     }
     
     func removeLetter() {
-        if !guessData.userGuess.isEmpty {
-            guessData.userGuess.removeLast()
-            print(guessData.userGuess)
+        if !guessData.currentGuess.isEmpty {
+            guessData.currentGuess.removeLast()
+            print(guessData.currentGuess)
         }
     }
     
     // rn it only checks if guess == 5 but not if word is valid word AND if guessCount is < 5
     func submitWord() {
-        if guessData.userGuess.count == 5 {
-            let word = guessData.userGuess.joined()
-            guessData.pastGuesses.append(guessData.userGuess)
-            guessData.userGuess = []
+        if guessData.currentGuess.count == 5 {
+            let word = guessData.currentGuess.joined()
+            guessData.pastGuesses.append(guessData.currentGuess)
+            guessData.rowSubmission.append(true)
+            guessData.currentGuess = [] // reset currentGuess so it starts fresh on next line
             guessData.numberOfGuesses += 1
             print("word submitted: \(word)")
             print("past guesses: \(guessData.pastGuesses)")
@@ -116,5 +117,5 @@ struct KeyboardView: View {
 
 
 #Preview {
-    KeyboardView(guessData: .constant(GuessData(userGuess: [], numberOfGuesses: 0)))
+    KeyboardView(guessData: .constant(GuessData(currentGuess: [], numberOfGuesses: 0)))
 }

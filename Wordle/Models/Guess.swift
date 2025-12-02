@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct GuessData {
-    var userGuess:[String] = []
+    var targetWord = "HOUSE"
+    var currentGuess:[String] = []
     var pastGuesses:[[String]] = []
     var maxGuessLetters = 5
     var maxGuesses = 6
     var numberOfGuesses = 0
+    var rowSubmission: [Bool] = []
 }

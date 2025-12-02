@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var guess = GuessData()
+    @State private var guess = GuessData(currentGuess: [], numberOfGuesses: 0)
     
     var body: some View {
         GameView()
