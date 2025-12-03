@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GuessData {
-    var targetWord = "GOOSE"
+    var targetWord = "ERASE"
     var currentGuess:[String] = []
     var pastGuesses:[[String]] = []
     var maxGuessLetters = 5

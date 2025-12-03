@@ -43,14 +43,6 @@ struct GuessRowView: View {
                          rowStatus: index < guessData.rowSubmission.count ? guessData.rowSubmission[index] : false)
             }
         }
-        // ternary solution
-//        ForEach(0..<guessData.maxGuesses, id: \.self) { index in
-//            GuessRow(letters:
-//                index < guessData.numberOfGuesses ? guessData.pastGuesses[index] :
-//                index == guessData.numberOfGuesses ? guessData.currentGuess :
-//                []
-//            )
-//        }
     }
 }
 

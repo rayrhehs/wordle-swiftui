@@ -13,32 +13,55 @@ struct GuessRow: View {
     var targetWordLettersCount: [String: Int]
     var rowStatus = false
     
-    private func getBackgroundColor(for column: Int, guessLetters: [String], targetWordArray:[String], rowStatus: Bool) -> Color {
-        guard column < guessLetters.count && column < targetWordArray.count && rowStatus else {
-            return Color.clear
+    private var getSquareColor: [Color] {
+        // exits function if guard condition not met
+        guard (rowStatus) else {
+            return Array(repeating: Color.white, count: 5)
         }
         
-        // if guessLetters[column] == targetWord[column] turn green
-        if (targetWordArray[column] == guessLetters[column]) {
-            return Color.green
+        // creates an array of gray colors of size 5
+        var colors: [Color] = Array(repeating: Color.gray, count: 5)
+        var letterCount: [String: Int] = [:]
+        
+        //
+        for column in 0..<5 {
+            
+            let letter = guessLetters[column]
+            
+            if (letter == targetWordArray[column]) {
+                colors[column] = Color.green
+                letterCount[letter, default: 0] += 1
+            }
         }
         
-        // if targetWordArray contains guessLetters[column] AND the correct number of letters then turn yellow
-        if (targetWordArray.contains(guessLetters[column])) {
-            return Color.yellow
+        for column in 0..<5 {
+            if (colors[column] == Color.green) {
+                continue // exit for loop
+            }
+            
+            let letter = guessLetters[column]
+            let currentCount = letterCount[letter, default: 0]
+            let targetCount = targetWordLettersCount[letter, default: 0]
+            
+            if (currentCount < targetCount && targetWordArray.contains(letter)) {
+                colors[column] = Color.yellow
+                letterCount[letter, default: 0] += 1
+            }
         }
-        
-        return Color.gray
+            
+        return colors
     }
     
     var body: some View {
+        
+        let squareColors = getSquareColor
         HStack {
             ForEach(0..<5, id: \.self) { column in
                 ZStack {
                     Rectangle()
                         .stroke(Color.black, lineWidth: 4)
                         .frame(width: 65, height: 65)
-                        .background(getBackgroundColor(for: column, guessLetters: guessLetters, targetWordArray: targetWordArray, rowStatus: rowStatus))
+                        .background(squareColors[column])
 
                     if column < guessLetters.count {
                         Text(guessLetters[column])
@@ -52,10 +75,15 @@ struct GuessRow: View {
 }
 
 #Preview {
-    GuessRow(guessLetters: ["E", "B", "E", "N", "E"], targetWordArray: ["P", "E", "N", "N", "Y"], targetWordLettersCount: [
-        "P": 1,
-        "E": 1,
-        "N": 2,
-        "Y": 1
-    ], rowStatus: true)
+    GuessRow(
+        guessLetters: ["T", "E", "P", "E", "E"],
+        targetWordArray: ["E", "R", "A", "S", "E"],
+        targetWordLettersCount: [
+            "E": 2,
+            "R": 1,
+            "A": 1,
+            "S": 1
+        ],
+        rowStatus: true
+    )
 }
