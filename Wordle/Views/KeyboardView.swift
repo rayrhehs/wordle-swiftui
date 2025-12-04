@@ -58,7 +58,8 @@ struct KeyboardView: View {
     // rn it only checks if guess == 5 but not if word is valid word AND if guessCount is < 5
     func submitWord() {
         let mergedWord = guessData.currentGuess.joined()
-        if guessData.currentGuess.count == 5 && guessData.allowedWordList.contains(mergedWord) {
+        // allowedList and answerList do not contain same words -> use both to check guessWord
+        if guessData.currentGuess.count == 5 && guessData.allowedWordList.contains(mergedWord) || guessData.answerWordList.contains(mergedWord) {
             guessData.pastGuesses.append(guessData.currentGuess)
             guessData.rowSubmission.append(true)
             guessData.currentGuess = [] // reset currentGuess so it starts fresh on next line
