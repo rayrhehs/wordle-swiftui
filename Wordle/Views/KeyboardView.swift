@@ -57,13 +57,13 @@ struct KeyboardView: View {
     
     // rn it only checks if guess == 5 but not if word is valid word AND if guessCount is < 5
     func submitWord() {
-        if guessData.currentGuess.count == 5 {
-            let word = guessData.currentGuess.joined()
+        let mergedWord = guessData.currentGuess.joined()
+        if guessData.currentGuess.count == 5 && guessData.allowedWordList.contains(mergedWord) {
             guessData.pastGuesses.append(guessData.currentGuess)
             guessData.rowSubmission.append(true)
             guessData.currentGuess = [] // reset currentGuess so it starts fresh on next line
             guessData.numberOfGuesses += 1
-            print("word submitted: \(word)")
+            print("word submitted: \(mergedWord)")
             print("past guesses: \(guessData.pastGuesses)")
             print("actual word: \(guessData.targetWord)")
         }
@@ -118,5 +118,5 @@ struct KeyboardView: View {
 
 
 #Preview {
-    KeyboardView(guessData: .constant(GuessData(currentGuess: [], numberOfGuesses: 0)))
+    KeyboardView(guessData: .constant(GuessData()))
 }

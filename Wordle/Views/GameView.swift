@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GameView: View {
-    @State private var guessData = GuessData(currentGuess: [], numberOfGuesses: 0)
+    @State private var guessData = GuessData()
     
     var body: some View {
         VStack {

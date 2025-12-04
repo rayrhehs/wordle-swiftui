@@ -47,5 +47,5 @@ struct GuessRowView: View {
 }
 
 #Preview {
-    GuessRowView(guessData: GuessData(currentGuess: [], numberOfGuesses: 0))
+    GuessRowView(guessData: GuessData())
 }
