@@ -1,14 +1,10 @@
-//
-//  Guess.swift
-//  Wordle
-//
-//  Created by Shehryar Manzar on 2025-11-14.
-//
-
 import SwiftUI
 
 struct GuessData {
-    var targetWord = "ERASE"
+    static let answerWordList: Set<String> = WordLoader.loadWords(from: "answer_words")
+    static let allowedWordList: Set<String> = WordLoader.loadWords(from: "allowed_words")
+    
+    var targetWord = answerWordList.randomElement()!
     var currentGuess:[String] = []
     var pastGuesses:[[String]] = []
     var maxGuessLetters = 5

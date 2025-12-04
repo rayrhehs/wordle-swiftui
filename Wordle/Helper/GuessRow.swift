@@ -23,7 +23,7 @@ struct GuessRow: View {
         var colors: [Color] = Array(repeating: Color.gray, count: 5)
         var letterCount: [String: Int] = [:]
         
-        //
+        // check if letter is in right spot and add to local letterCount dictionary variable
         for column in 0..<5 {
             
             let letter = guessLetters[column]
@@ -34,6 +34,7 @@ struct GuessRow: View {
             }
         }
         
+        // check if current letter count is < target letter count if and in the word
         for column in 0..<5 {
             if (colors[column] == Color.green) {
                 continue // exit for loop

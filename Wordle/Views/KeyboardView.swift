@@ -65,6 +65,7 @@ struct KeyboardView: View {
             guessData.numberOfGuesses += 1
             print("word submitted: \(word)")
             print("past guesses: \(guessData.pastGuesses)")
+            print("actual word: \(guessData.targetWord)")
         }
     }
     
