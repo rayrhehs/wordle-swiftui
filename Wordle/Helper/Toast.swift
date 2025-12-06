@@ -16,10 +16,11 @@ struct Toast: View {
                 .foregroundStyle(Color.white) // text color
                 .font(.title3) // font size
                 .fontWeight(.bold) // font weight
-                .padding(20)
+                .padding(15)
         }
         .background(Color.black)
-        .clipShape(RoundedRectangle(cornerRadius: 10)) // swift != border radius so they punish us w/ this workaround
+        .clipShape(RoundedRectangle(cornerRadius: 10)) // swift dsn't hv border radius so they punish us w/ this workaround
+        .shadow(radius: 2) // must be added after clipshape otherwise it will get cut by it
     }
 }
 

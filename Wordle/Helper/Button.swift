@@ -8,6 +8,7 @@
 
 
 // this will be used when i decide to modularize the buttons (towards the end)
+// might deprecate this
 
 import SwiftUI
 

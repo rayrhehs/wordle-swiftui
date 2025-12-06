@@ -37,6 +37,7 @@ struct KeyboardView: View {
     
     @Binding var guessData: GuessData
     
+    let delay = 3.0
     var topRowArray = "QWERTYUIOP".map { String($0) }
     var middleRowArray = "ASDFGHJKL".map { String($0)}
     var bottomRowArray = "ZXCVBNM".map { String($0)}
@@ -55,11 +56,26 @@ struct KeyboardView: View {
         }
     }
     
-    // rn it only checks if guess == 5 but not if word is valid word AND if guessCount is < 5
+    func setInvalidGuess() {
+        guard guessData.invalidGuess == false else {
+            return
+        }
+        guessData.invalidGuess = true
+        guessData.validateGuess() // determine what type of error it is
+
+        // loop runs after delay (~3 seconds)
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            guessData.invalidGuess = false
+        }
+    }
+    
     func submitWord() {
         let mergedWord = guessData.currentGuess.joined()
-        // allowedList and answerList do not contain same words -> use both to check guessWord
-        if guessData.currentGuess.count == 5 && guessData.allowedWordList.contains(mergedWord) || guessData.answerWordList.contains(mergedWord) {
+        let isValidWord =
+            guessData.allowedWordList.contains(mergedWord)
+            || guessData.answerWordList.contains(mergedWord)
+        // allowedList and answerList do not contain same words -> use both to check guessWord with isValidWord
+        if guessData.currentGuess.count == 5 && isValidWord {
             guessData.pastGuesses.append(guessData.currentGuess)
             guessData.rowSubmission.append(true)
             guessData.currentGuess = [] // reset currentGuess so it starts fresh on next line
@@ -67,6 +83,8 @@ struct KeyboardView: View {
             print("word submitted: \(mergedWord)")
             print("past guesses: \(guessData.pastGuesses)")
             print("actual word: \(guessData.targetWord)")
+        } else {
+            setInvalidGuess()
         }
     }
     

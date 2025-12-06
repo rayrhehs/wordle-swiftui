@@ -11,6 +11,16 @@ struct GuessData {
     var maxGuesses = 6
     var numberOfGuesses = 0
     var rowSubmission: [Bool] = []
+    var invalidGuess: Bool = false
+    var invalidGuessMessage: String = ""
+    
+    mutating func validateGuess() {
+        if (currentGuess.count < maxGuessLetters) {
+         invalidGuessMessage = "Not enough letters"
+        } else {
+            invalidGuessMessage = "Word not in list"
+        }
+    }
     
     // init has to be used because Swift doesn't know what is being loaded first
     // target word could be loaded before answerWordList = error
