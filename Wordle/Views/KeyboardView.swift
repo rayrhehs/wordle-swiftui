@@ -7,14 +7,26 @@
 
 import SwiftUI
 
+extension Color {
+    static let lightGray = Color(red: 0.7, green: 0.7, blue: 0.7, opacity: 1.0)
+}
+
 struct KeyLabel: View {
+    @Binding var guessData: GuessData
     let letter: String
+    
+    private var getKeyColor: Color {
+        let keyColor: Color = Color.lightGray
+        
+        return keyColor
+    }
 
     var body: some View {
         Text(letter)
             .frame(width: 30, height: 75)
-            .foregroundStyle(Color.white)
-            .background(Color.green)
+            .foregroundStyle(Color.black)
+//            .background(Color.green)
+            .background(getKeyColor)
             .cornerRadius(6)
             .bold()
     }
@@ -95,7 +107,7 @@ struct KeyboardView: View {
                     Button(action: {
                         addLetter(letter: topRowArray[letterIndex])
                     }) {
-                        KeyLabel(letter: topRowArray[letterIndex])
+                        KeyLabel(guessData: $guessData, letter: topRowArray[letterIndex])
                     }
                 }
             }
@@ -104,7 +116,7 @@ struct KeyboardView: View {
                     Button(action: {
                         addLetter(letter: middleRowArray[letterIndex])
                     }) {
-                        KeyLabel(letter: middleRowArray[letterIndex])
+                        KeyLabel(guessData: $guessData, letter: middleRowArray[letterIndex])
                     }
                 }
             }
@@ -113,7 +125,7 @@ struct KeyboardView: View {
                     Button(action: {
                         addLetter(letter: bottomRowArray[letterIndex])
                     }) {
-                        KeyLabel(letter: bottomRowArray[letterIndex])
+                        KeyLabel(guessData: $guessData, letter: bottomRowArray[letterIndex])
                     }
                 }
             }
