@@ -27,3 +27,5 @@ struct Toast: View {
 #Preview {
     Toast(message: "Invalid Word")
 }
+
+

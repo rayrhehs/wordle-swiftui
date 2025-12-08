@@ -9,12 +9,12 @@ import SwiftUI
 
 struct GuessRowView: View {
     var guessData: GuessData
-    var targetWordArray: [String] {
-        guessData.targetWordArray
-    }
-    var targetWordLettersCount: [String: Int] {
-        guessData.targetWordLettersCount
-    }
+//    var targetWordArray: [String] {
+//        guessData.targetWordArray
+//    }
+//    var targetWordLettersCount: [String: Int] {
+//        guessData.targetWordLettersCount
+//    }
     
     private func getGuessLetters(at index: Int) -> [String] {
         if (index < guessData.numberOfGuesses) {
@@ -26,21 +26,19 @@ struct GuessRowView: View {
         }
     }
     
-    private func getRowStatus(at index: Int) -> Bool {
-        if (index < guessData.rowSubmission.count) {
-            return guessData.rowSubmission[index]
-        } else {
-            return false
-        }
-    }
-    
+//    private func getRowStatus(at index: Int) -> Bool {
+//        if (index < guessData.rowSubmission.count) {
+//            return guessData.rowSubmission[index]
+//        } else {
+//            return false
+//        }
+//    }
+  
     var body: some View {
         VStack {
             ForEach(0..<guessData.maxGuesses, id: \.self) { index in
                 GuessRow(guessLetters: getGuessLetters(at: index),
-                         targetWordArray: targetWordArray,
-                         targetWordLettersCount: targetWordLettersCount,
-                         rowStatus: index < guessData.rowSubmission.count ? guessData.rowSubmission[index] : false)
+                )
             }
         }
     }

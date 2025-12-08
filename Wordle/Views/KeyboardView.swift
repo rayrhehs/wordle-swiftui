@@ -12,21 +12,14 @@ extension Color {
 }
 
 struct KeyLabel: View {
-    @Binding var guessData: GuessData
+    var guessData: GuessData
     let letter: String
-    
-    private var getKeyColor: Color {
-        let keyColor: Color = Color.lightGray
-        
-        return keyColor
-    }
 
     var body: some View {
         Text(letter)
             .frame(width: 30, height: 75)
             .foregroundStyle(Color.black)
-//            .background(Color.green)
-            .background(getKeyColor)
+            .background(guessData.letterColors[letter])
             .cornerRadius(6)
             .bold()
     }
@@ -49,7 +42,7 @@ struct KeyboardView: View {
     
     @Binding var guessData: GuessData
     
-    let delay = 3.0
+    let delay = 2.0
     var topRowArray = "QWERTYUIOP".map { String($0) }
     var middleRowArray = "ASDFGHJKL".map { String($0)}
     var bottomRowArray = "ZXCVBNM".map { String($0)}
@@ -76,6 +69,7 @@ struct KeyboardView: View {
         guessData.validateGuess() // determine what type of error it is
 
         // loop runs after delay (~3 seconds)
+        // controls how long toast is on the screen
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             guessData.invalidGuess = false
         }
@@ -89,7 +83,10 @@ struct KeyboardView: View {
         // allowedList and answerList do not contain same words -> use both to check guessWord with isValidWord
         if guessData.currentGuess.count == 5 && isValidWord {
             guessData.pastGuesses.append(guessData.currentGuess)
-            guessData.rowSubmission.append(true)
+            // if pastGuesses[numberOfGuesses] exists then pass in array of letters (the submitted word)
+            
+//            guessData.setLetterColor() DO NOT CALL YET I DON'T KNOW WHAT THE PARAMETERS LOOK LIKE
+            
             guessData.currentGuess = [] // reset currentGuess so it starts fresh on next line
             guessData.numberOfGuesses += 1
             print("word submitted: \(mergedWord)")
@@ -107,7 +104,7 @@ struct KeyboardView: View {
                     Button(action: {
                         addLetter(letter: topRowArray[letterIndex])
                     }) {
-                        KeyLabel(guessData: $guessData, letter: topRowArray[letterIndex])
+                        KeyLabel(guessData: guessData, letter: topRowArray[letterIndex])
                     }
                 }
             }
@@ -116,7 +113,7 @@ struct KeyboardView: View {
                     Button(action: {
                         addLetter(letter: middleRowArray[letterIndex])
                     }) {
-                        KeyLabel(guessData: $guessData, letter: middleRowArray[letterIndex])
+                        KeyLabel(guessData: guessData, letter: middleRowArray[letterIndex])
                     }
                 }
             }
@@ -125,7 +122,7 @@ struct KeyboardView: View {
                     Button(action: {
                         addLetter(letter: bottomRowArray[letterIndex])
                     }) {
-                        KeyLabel(guessData: $guessData, letter: bottomRowArray[letterIndex])
+                        KeyLabel(guessData: guessData, letter: bottomRowArray[letterIndex])
                     }
                 }
             }

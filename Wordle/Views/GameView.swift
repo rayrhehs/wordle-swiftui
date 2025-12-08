@@ -25,7 +25,7 @@ struct GameView: View {
                     .zIndex(1) // prevents the toast from getting behind components when exiting
             }
         }
-        .animation(.easeInOut(duration: 0.2), value: guessData.invalidGuess)
+        .animation(.easeInOut(duration: 0.3), value: guessData.invalidGuess)
     }
 }
 
