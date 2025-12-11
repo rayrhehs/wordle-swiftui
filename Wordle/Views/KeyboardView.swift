@@ -128,9 +128,9 @@ struct KeyboardView: View {
             HStack{
                 // potentially conditionally render the reset button on success or failure
                 Button(action: {
-                    submitWord()
+                    guessData.gameOver ? guessData.restartGame() : submitWord()
                 }) {
-                    ButtonLabel(buttonlabel: "SUBMIT")
+                    ButtonLabel(buttonlabel: guessData.gameOver ? "RETRY" : "SUBMIT")
                 }
                 Button(action: {
                     removeLetter()
