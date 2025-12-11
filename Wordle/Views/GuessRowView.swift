@@ -36,6 +36,7 @@ struct GuessRowView: View {
                 )
             }
         }
+        .scenePadding(.top)
     }
 }
 

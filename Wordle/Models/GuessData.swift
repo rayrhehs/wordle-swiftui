@@ -13,14 +13,17 @@ struct GuessData {
     var maxGuessLetters = 5
     var invalidGuess: Bool = false
     var invalidGuessMessage: String = ""
-    var letterColors: [String: Color] = Dictionary(uniqueKeysWithValues: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".map { (String($0), Color.lightGray) })
+    var letterColors: [String: Color] = Dictionary(uniqueKeysWithValues: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".map { (String($0), Color.lightestGray) })
 
     mutating func setLetterColor(for wordArray: [String]) {
         
         guard numberOfGuesses < pastGuesses.count else {
                     return
                 }
-            
+                
+                var letterCount: [String: Int] = targetWordLettersCount
+
+        
                 // first pass checks for green letter
                 for column in 0..<5 {
         
@@ -29,6 +32,7 @@ struct GuessData {
                     if (letter == targetWordArray[column]) {
                         letterColors[letter] = Color.green
                         pastGuessesColor[numberOfGuesses][column] = Color.green
+                        letterCount[letter, default: 0] -= 1
                     }
                 }
                 
@@ -36,22 +40,27 @@ struct GuessData {
                 for column in 0..<5 {
                     
                     let letter = wordArray[column]
-
+                    
+                    // for green letters
                     if (pastGuessesColor[numberOfGuesses][column] == Color.green) {
                         continue // exit for loop
                     }
                     
-                    if (targetWordArray.contains(letter)) {
-                        letterColors[letter] = Color.yellow
-                        pastGuessesColor[numberOfGuesses][column] = Color.yellow
-                    } else if (!targetWordArray.contains(letter)) {
-                        letterColors[letter] = Color.darkGray
+                    // for unchanged letters
+                    if (targetWordArray.contains(letter) && letterCount[letter, default: 0] > 0) {
+                        if letterColors[letter] != Color.green {
+                            letterColors[letter] = Color.orange
+                        }
+                        pastGuessesColor[numberOfGuesses][column] = Color.orange
+                        letterCount[letter, default: 0] -= 1
+                    } else if (targetWordArray.contains(letter) && letterCount[letter, default: 0] == 0){
                         pastGuessesColor[numberOfGuesses][column] = Color.darkGray
-                    } else {
+                    } else if (!targetWordArray.contains(letter)) {
                         letterColors[letter] = Color.darkGray
                         pastGuessesColor[numberOfGuesses][column] = Color.darkGray
                     }
             }
+                
     }
     
     mutating func validateGuess() {
@@ -69,8 +78,8 @@ struct GuessData {
         self.answerWordList = WordLoader.loadWords(from: "answer_words")
         self.allowedWordList = WordLoader.loadWords(from: "allowed_words")
         
-        self.targetWord = answerWordList.randomElement()!
-//        self.targetWord = "GROOM"
+//        self.targetWord = answerWordList.randomElement()!
+        self.targetWord = "JOUST"
     }
     
     var targetWordArray: [String] {

@@ -24,7 +24,7 @@ struct GuessRow: View {
                             Group {
                                 if fillColor == Color.white {
                                     Rectangle()
-                                        .stroke(Color.darkGray, lineWidth: 3)
+                                        .stroke(Color.lightGray, lineWidth: 3)
                                 } else {
                                     Rectangle()
                                         .stroke(fillColor, lineWidth: 3)
@@ -34,6 +34,8 @@ struct GuessRow: View {
                     if column < guessLetters.count {
                         Text(guessLetters[column])
                             .foregroundStyle(fillColor == Color.white ? Color.black : Color.white)
+                            .fontWeight(Font.Weight.black)
+                            .font(.system(size: 30))
                             .bold()
                     }
                     

@@ -14,7 +14,7 @@ struct KeyLabel: View {
     var body: some View {
         Text(letter)
             .frame(width: 30, height: 75)
-            .foregroundStyle(guessData.letterColors[letter] != Color.lightGray ? Color.white : Color.black)
+            .foregroundStyle(guessData.letterColors[letter] != Color.lightestGray ? Color.white : Color.black)
             .background(guessData.letterColors[letter])
             .cornerRadius(6)
             .bold()
@@ -123,6 +123,7 @@ struct KeyboardView: View {
                 }
             }
             HStack{
+                // potentially conditionally render the reset button on success or failure
                 Button(action: {
                     submitWord()
                 }) {
