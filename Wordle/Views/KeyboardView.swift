@@ -134,7 +134,7 @@ struct KeyboardView: View {
                     ButtonLabel(buttonlabel: "DELETE")
                 }
             }
-            .padding(10)
+            .padding(5)
         }
         .padding(10)
     }

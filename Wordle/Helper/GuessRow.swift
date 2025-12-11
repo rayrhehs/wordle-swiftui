@@ -15,19 +15,30 @@ struct GuessRow: View {
 
         HStack {
             ForEach(0..<5, id: \.self) { column in
+                let fillColor = column < guessLetters.count ? letterColors[column] : Color.white
                 ZStack {
                     Rectangle()
-                        .stroke(Color.black, lineWidth: 4)
+                        .fill(fillColor)
                         .frame(width: 65, height: 65)
-                        .background(column < guessLetters.count
-                                    ? letterColors[column] : Color.white
+                        .overlay(
+                            Group {
+                                if fillColor == Color.white {
+                                    Rectangle()
+                                        .stroke(Color.darkGray, lineWidth: 3)
+                                } else {
+                                    Rectangle()
+                                        .stroke(fillColor, lineWidth: 3)
+                                }
+                            }
                         )
-
                     if column < guessLetters.count {
                         Text(guessLetters[column])
+                            .foregroundStyle(fillColor == Color.white ? Color.black : Color.white)
+                            .bold()
                     }
                     
                 }
+                .frame(height: 65)
             }
         }
         .frame(maxWidth: .infinity, alignment: .center)   // center each row

@@ -15,13 +15,13 @@ struct GuessData {
     var invalidGuessMessage: String = ""
     var letterColors: [String: Color] = Dictionary(uniqueKeysWithValues: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".map { (String($0), Color.lightGray) })
 
-    // this needs an array of strings (chars) that will be checked if they are in the word or not
     mutating func setLetterColor(for wordArray: [String]) {
         
         guard numberOfGuesses < pastGuesses.count else {
                     return
                 }
-        
+            
+                // first pass checks for green letter
                 for column in 0..<5 {
         
                     let letter = wordArray[column]
@@ -31,7 +31,8 @@ struct GuessData {
                         pastGuessesColor[numberOfGuesses][column] = Color.green
                     }
                 }
-        
+                
+                // second pass checks for yellow letters
                 for column in 0..<5 {
                     
                     let letter = wordArray[column]
@@ -46,8 +47,7 @@ struct GuessData {
                     } else if (!targetWordArray.contains(letter)) {
                         letterColors[letter] = Color.darkGray
                         pastGuessesColor[numberOfGuesses][column] = Color.darkGray
-                    }
-                    else {
+                    } else {
                         letterColors[letter] = Color.darkGray
                         pastGuessesColor[numberOfGuesses][column] = Color.darkGray
                     }
@@ -69,8 +69,8 @@ struct GuessData {
         self.answerWordList = WordLoader.loadWords(from: "answer_words")
         self.allowedWordList = WordLoader.loadWords(from: "allowed_words")
         
-//        self.targetWord = answerWordList.randomElement()!
-        self.targetWord = "GROOM"
+        self.targetWord = answerWordList.randomElement()!
+//        self.targetWord = "GROOM"
     }
     
     var targetWordArray: [String] {
