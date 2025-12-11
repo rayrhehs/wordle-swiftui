@@ -7,16 +7,51 @@ struct GuessData {
     var targetWord: String
     var currentGuess:[String] = []
     var pastGuesses:[[String]] = []
+    var pastGuessesColor: [[Color]] = Array(repeating: Array(repeating: Color.white, count: 5), count: 6)
     var numberOfGuesses = 0
     var maxGuesses = 6
     var maxGuessLetters = 5
     var invalidGuess: Bool = false
     var invalidGuessMessage: String = ""
-    var letterColors: [String: Color] = Dictionary(uniqueKeysWithValues: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".map { (String($0), Color.gray) })
+    var letterColors: [String: Color] = Dictionary(uniqueKeysWithValues: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".map { (String($0), Color.lightGray) })
 
     // this needs an array of strings (chars) that will be checked if they are in the word or not
-    mutating func setLetterColor(for letter: String) {
-        letterColors[letter] = Color.green
+    mutating func setLetterColor(for wordArray: [String]) {
+        
+        guard numberOfGuesses < pastGuesses.count else {
+                    return
+                }
+        
+                for column in 0..<5 {
+        
+                    let letter = wordArray[column]
+        
+                    if (letter == targetWordArray[column]) {
+                        letterColors[letter] = Color.green
+                        pastGuessesColor[numberOfGuesses][column] = Color.green
+                    }
+                }
+        
+                for column in 0..<5 {
+                    
+                    let letter = wordArray[column]
+
+                    if (pastGuessesColor[numberOfGuesses][column] == Color.green) {
+                        continue // exit for loop
+                    }
+                    
+                    if (targetWordArray.contains(letter)) {
+                        letterColors[letter] = Color.yellow
+                        pastGuessesColor[numberOfGuesses][column] = Color.yellow
+                    } else if (!targetWordArray.contains(letter)) {
+                        letterColors[letter] = Color.darkGray
+                        pastGuessesColor[numberOfGuesses][column] = Color.darkGray
+                    }
+                    else {
+                        letterColors[letter] = Color.darkGray
+                        pastGuessesColor[numberOfGuesses][column] = Color.darkGray
+                    }
+            }
     }
     
     mutating func validateGuess() {
@@ -34,7 +69,8 @@ struct GuessData {
         self.answerWordList = WordLoader.loadWords(from: "answer_words")
         self.allowedWordList = WordLoader.loadWords(from: "allowed_words")
         
-        self.targetWord = answerWordList.randomElement()!
+//        self.targetWord = answerWordList.randomElement()!
+        self.targetWord = "GROOM"
     }
     
     var targetWordArray: [String] {
@@ -45,45 +81,4 @@ struct GuessData {
             .mapValues { $0.count }
     }
 
-    
-// ignore
-//    var getSquareColor: [Color] {
-//        // exits function if guard condition not met
-//        guard (rowStatus) else {
-//            return Array(repeating: Color.white, count: 5)
-//        }
-//        
-//        // creates an array of gray colors of size 5
-//        var colors: [Color] = Array(repeating: Color.gray, count: 5)
-//        var letterCount: [String: Int] = [:]
-//        
-//        // check if letter is in right spot and add to local letterCount dictionary variable
-//        for column in 0..<5 {
-//            
-//            let letter = guessLetters[column]
-//            
-//            if (letter == targetWordArray[column]) {
-//                colors[column] = Color.green
-//                letterCount[letter, default: 0] += 1
-//            }
-//        }
-//        
-//        // check if current letter count is < target letter count if and in the word
-//        for column in 0..<5 {
-//            if (colors[column] == Color.green) {
-//                continue // exit for loop
-//            }
-//            
-//            let letter = guessLetters[column]
-//            let currentCount = letterCount[letter, default: 0]
-//            let targetCount = targetWordLettersCount[letter, default: 0]
-//            
-//            if (currentCount < targetCount && targetWordArray.contains(letter)) {
-//                colors[column] = Color.yellow
-//                letterCount[letter, default: 0] += 1
-//            }
-//        }
-//            
-//        return colors
-//    }
 }

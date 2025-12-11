@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-extension Color {
-    static let lightGray = Color(red: 0.7, green: 0.7, blue: 0.7, opacity: 1.0)
-}
-
 struct KeyLabel: View {
     var guessData: GuessData
     let letter: String
@@ -18,7 +14,7 @@ struct KeyLabel: View {
     var body: some View {
         Text(letter)
             .frame(width: 30, height: 75)
-            .foregroundStyle(Color.black)
+            .foregroundStyle(guessData.letterColors[letter] != Color.lightGray ? Color.white : Color.black)
             .background(guessData.letterColors[letter])
             .cornerRadius(6)
             .bold()
@@ -85,7 +81,7 @@ struct KeyboardView: View {
             guessData.pastGuesses.append(guessData.currentGuess)
             // if pastGuesses[numberOfGuesses] exists then pass in array of letters (the submitted word)
             
-//            guessData.setLetterColor() DO NOT CALL YET I DON'T KNOW WHAT THE PARAMETERS LOOK LIKE
+            guessData.setLetterColor(for: guessData.pastGuesses[guessData.numberOfGuesses])
             
             guessData.currentGuess = [] // reset currentGuess so it starts fresh on next line
             guessData.numberOfGuesses += 1

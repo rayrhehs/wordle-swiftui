@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+extension Color {
+    static let lightGray = Color(red: 0.7, green: 0.7, blue: 0.7, opacity: 1.0)
+    static let darkGray = Color(red: 0.4, green: 0.4, blue: 0.4, opacity: 1.0)
+}
+
 struct GameView: View {
     @State private var guessData = GuessData()
     
