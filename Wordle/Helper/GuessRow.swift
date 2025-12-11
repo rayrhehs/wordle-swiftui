@@ -34,7 +34,7 @@ struct GuessRow: View {
                     if column < guessLetters.count {
                         Text(guessLetters[column])
                             .foregroundStyle(fillColor == Color.white ? Color.black : Color.white)
-                            .fontWeight(Font.Weight.black)
+                            .fontWeight(Font.Weight.heavy)
                             .font(.system(size: 30))
                             .bold()
                     }

@@ -13,6 +13,7 @@ struct GuessData {
     var maxGuessLetters = 5
     var invalidGuess: Bool = false
     var invalidGuessMessage: String = ""
+    var gameOver = false
     var letterColors: [String: Color] = Dictionary(uniqueKeysWithValues: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".map { (String($0), Color.lightestGray) })
 
     mutating func setLetterColor(for wordArray: [String]) {
@@ -22,6 +23,7 @@ struct GuessData {
                 }
                 
                 var letterCount: [String: Int] = targetWordLettersCount
+                var winCount = 0;
 
         
                 // first pass checks for green letter
@@ -33,6 +35,7 @@ struct GuessData {
                         letterColors[letter] = Color.green
                         pastGuessesColor[numberOfGuesses][column] = Color.green
                         letterCount[letter, default: 0] -= 1
+                        winCount += 1
                     }
                 }
                 
@@ -60,7 +63,14 @@ struct GuessData {
                         pastGuessesColor[numberOfGuesses][column] = Color.darkGray
                     }
             }
-                
+            
+                if winCount == 5 {
+                    gameOver = true
+                    print("Game has been won!")
+                } else if (numberOfGuesses >= 5) {
+                    gameOver = true
+                    print("You lose.")
+                }
     }
     
     mutating func validateGuess() {
@@ -89,5 +99,5 @@ struct GuessData {
         Dictionary(grouping: targetWordArray, by: { $0 })
             .mapValues { $0.count }
     }
-
 }
+

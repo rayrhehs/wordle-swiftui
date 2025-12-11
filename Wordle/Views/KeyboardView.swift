@@ -14,10 +14,10 @@ struct KeyLabel: View {
     var body: some View {
         Text(letter)
             .frame(width: 30, height: 75)
+            .fontWeight(.bold)
             .foregroundStyle(guessData.letterColors[letter] != Color.lightestGray ? Color.white : Color.black)
             .background(guessData.letterColors[letter])
             .cornerRadius(6)
-            .bold()
     }
 }
 
@@ -44,14 +44,14 @@ struct KeyboardView: View {
     var bottomRowArray = "ZXCVBNM".map { String($0)}
     
     func addLetter(letter: String) {
-        if (guessData.currentGuess.count < guessData.maxGuessLetters) {
+        if (!guessData.gameOver && guessData.currentGuess.count < guessData.maxGuessLetters) {
             guessData.currentGuess.append(letter)
             print(guessData.currentGuess)
         }
     }
     
     func removeLetter() {
-        if !guessData.currentGuess.isEmpty {
+        if (!guessData.gameOver && !guessData.currentGuess.isEmpty) {
             guessData.currentGuess.removeLast()
             print(guessData.currentGuess)
         }
@@ -72,6 +72,9 @@ struct KeyboardView: View {
     }
     
     func submitWord() {
+        guard !guessData.gameOver else {
+            return
+        }
         let mergedWord = guessData.currentGuess.joined()
         let isValidWord =
             guessData.allowedWordList.contains(mergedWord)
